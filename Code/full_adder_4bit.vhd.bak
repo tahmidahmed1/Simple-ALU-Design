@@ -1,0 +1,44 @@
+-- ECE 124, LAB Session #206, Team Number #9, Tahmid Ahmed & Vidhi Patel
+library ieee;
+use ieee.std_logic_1164.all;
+
+
+-- Adder generates two outputs based on input logic levels
+
+entity full_adder_4bit is
+port(
+
+	BUS0_b	: in std_logic_vector(3 downto 0);
+	BUS1_b 	: in std_logic_vector(3 downto 0);
+	CARRY_IN : in std_logic;
+	SUM_b 	: out std_logic_vector(3 downto 0);
+	CARRY_OUTPUT: out std_logic
+	
+);
+end full_adder_4bit;
+
+architecture full_bit_adder_4bit_logic of full_adder_4bit is 
+
+	component full_adder_1bit port(
+	
+		INPUT_A, INPUT_B	: in std_logic;
+		CARRY_IN				: in std_logic;
+		CARRY_OUTPUT, SUM_OUTPUT : out std_logic
+	
+	);
+	
+	end component;
+	
+	signal Carry_Out0 :std_logic;
+	signal Carry_Out1 :std_logic;
+	signal Carry_Out2 :std_logic;
+	
+	
+begin 
+
+	INST1: full_adder_1bit port map(BUS1_b(0), BUS0_b(0), CARRY_IN, Carry_Out0, SUM_b(0));
+	INST2: full_adder_1bit port map(BUS1_b(1), BUS0_b(1), Carry_Out0, Carry_Out1, SUM_b(1));
+	INST3: full_adder_1bit port map(BUS1_b(2), BUS0_b(2), Carry_Out1, Carry_Out2, SUM_b(2));
+	INST4: full_adder_1bit port map(BUS1_b(3), BUS0_b(3), Carry_Out2, CARRY_OUTPUT, SUM_b(3));
+	
+end full_bit_adder_4bit_logic;
